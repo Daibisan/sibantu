@@ -10,7 +10,7 @@ interface ToastState {
 }
 
 export default function PoskoPage() {
-  // Form input states
+  // Form input states (only essential fields)
   const [posko, setPosko] = useState<string>("Posko 01 - Cugenang (Desa Gasol)");
   const [item, setItem] = useState<string>("Makanan Bayi & Balita");
   const [qty, setQty] = useState<number | string>(40);
@@ -31,37 +31,23 @@ export default function PoskoPage() {
     }, 3500);
   };
 
-  // Dynamic Rationality Calculation (Indikator Kewajaran Alokasi Per Jiwa)
-  const qtyNumber = Number(qty) || 0;
-  const benNumber = Number(beneficiaries) || 1;
-  const ratio = (qtyNumber / benNumber).toFixed(2);
-  const isExcessive = Number(ratio) > 1.5;
-
-  const statusText = isExcessive
-    ? `Peringatan: Berlebih (${ratio} unit/jiwa)`
-    : `Wajar (${ratio} unit/jiwa)`;
-
-  const barWidth = isExcessive
-    ? "100%"
-    : `${Math.min(Number(ratio) * 70, 100)}%`;
-
   // Submit Handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const reqId = `REQ-CJN-${Math.floor(100 + Math.random() * 900)}`;
     triggerToast(
-      `Pengajuan ${reqId} (${item} - ${qtyNumber} unit) berhasil dikirim ke Command Center BPBD!`,
+      `Pengajuan ${reqId} (${item} - ${qty} unit) berhasil dikirim ke Command Center BPBD!`,
       "success"
     );
   };
 
-  // Auto-Fill Critical Scenario (Demo Juri)
-  const handleAutoFillUrgent = () => {
+  // Quick Auto-Fill for Demo
+  const handleAutoFill = () => {
     setItem("Paket Obat Darurat & P3K");
     setQty(35);
     setBeneficiaries(80);
     setUrgency("DARURAT");
-    triggerToast("Data Kasus Kritis dimuat.", "info");
+    triggerToast("Data kasus darurat berhasil dimuat untuk simulasi demo.", "info");
   };
 
   return (
@@ -96,13 +82,13 @@ export default function PoskoPage() {
           <span className="px-2.5 py-0.5 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full">
             Modul Operasional Lapangan
           </span>
-          <span className="text-xs text-slate-500">Formulir Terstandarisasi BNPB Juknis No. 7/2023</span>
+          <span className="text-xs text-slate-500">Formulir Logistik Lapangan</span>
         </div>
         <h1 className="text-2xl font-bold text-slate-900 mt-1">
           Formulir Permintaan Kebutuhan Logistik Pengungsi
         </h1>
         <p className="text-sm text-slate-500">
-          Diajukan langsung oleh Koordinator Posko Lapangan terdaftar untuk diverifikasi oleh BPBD.
+          Diajukan langsung oleh Koordinator Posko Lapangan untuk diverifikasi oleh BPBD.
         </p>
       </div>
 
@@ -111,7 +97,7 @@ export default function PoskoPage() {
         {/* Main Form Card */}
         <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Posko Selector */}
+            {/* Input 1: Dropdown Posko */}
             <div>
               <label
                 htmlFor="req-posko-select"
@@ -135,18 +121,15 @@ export default function PoskoPage() {
                   Posko 03 - Ciherang (Pacet) • Zona Hijau
                 </option>
               </select>
-              <p className="text-[11px] text-slate-500 mt-1">
-                Hanya posko yang terdaftar resmi di SK Bupati Cianjur yang dapat mengajukan permintaan.
-              </p>
             </div>
 
-            {/* Item Selector */}
+            {/* Input 2: Dropdown Komoditas Barang */}
             <div>
               <label
                 htmlFor="req-item-name"
                 className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
               >
-                Kategori &amp; Nama Komoditas Kebutuhan
+                Komoditas Barang
               </label>
               <select
                 id="req-item-name"
@@ -162,14 +145,14 @@ export default function PoskoPage() {
               </select>
             </div>
 
-            {/* Volume & Beneficiaries Grid */}
+            {/* Input 3 & 4: Jumlah Unit & Jumlah Jiwa Pengungsi */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label
                   htmlFor="req-qty"
                   className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
                 >
-                  Jumlah Satuan Diminta
+                  Jumlah Unit
                 </label>
                 <input
                   type="number"
@@ -187,7 +170,7 @@ export default function PoskoPage() {
                   htmlFor="req-beneficiaries"
                   className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
                 >
-                  Jumlah Jiwa Pengungsi Terdaftar
+                  Jumlah Jiwa Pengungsi
                 </label>
                 <input
                   type="number"
@@ -202,10 +185,10 @@ export default function PoskoPage() {
               </div>
             </div>
 
-            {/* Urgency Classification */}
+            {/* Input 5: Pilihan Urgensi (Normal / Darurat) */}
             <div>
               <span className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                Klasifikasi Urgensi Kebutuhan
+                Pilihan Urgensi
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label
@@ -224,7 +207,7 @@ export default function PoskoPage() {
                     className="mt-1 text-teal-600 focus:ring-teal-500"
                   />
                   <div>
-                    <div className="text-xs font-bold text-slate-900">Normal (Prioritas Reguler)</div>
+                    <div className="text-xs font-bold text-slate-900">Normal</div>
                     <div className="text-[11px] text-slate-500 mt-0.5">
                       Stok di posko masih mencukupi untuk &gt;24 jam ke depan.
                     </div>
@@ -247,55 +230,35 @@ export default function PoskoPage() {
                     className="mt-1 text-rose-600 focus:ring-rose-500"
                   />
                   <div>
-                    <div className="text-xs font-bold text-rose-700">Darurat (Kritis Mendesak)</div>
+                    <div className="text-xs font-bold text-rose-700">Darurat</div>
                     <div className="text-[11px] text-rose-600/80 mt-0.5">
-                      Stok kritis &lt;6 jam atau ancaman kesehatan penyintas darurat.
+                      Stok kritis &lt;6 jam atau kebutuhan mendesak.
                     </div>
                   </div>
                 </label>
               </div>
             </div>
 
-            {/* Rationality Gauge (Proposal Bab 4.6) */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-              <div className="flex justify-between items-center text-xs mb-1.5">
-                <span className="text-slate-600 font-semibold">Indikator Kewajaran Alokasi (Per Jiwa):</span>
-                <span
-                  id="rationality-status"
-                  className={isExcessive ? "font-bold text-rose-600" : "font-bold text-emerald-700"}
-                >
-                  {statusText}
-                </span>
-              </div>
-              <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-                <div
-                  id="rationality-bar"
-                  style={{ width: barWidth }}
-                  className={`h-full transition-all duration-300 ${
-                    isExcessive ? "bg-rose-500" : "bg-emerald-500"
-                  }`}
-                />
-              </div>
-              <p className="text-[11px] text-slate-500 mt-2">
-                Sistem otomatis menandai permintaan di atas ambang batas wajar untuk mencegah penimbunan dan ketimpangan pasokan antar-posko.
-              </p>
-            </div>
-
-            {/* Submit Action */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={handleAutoFillUrgent}
-                className="text-xs text-teal-700 hover:text-teal-900 font-semibold underline cursor-pointer"
-              >
-                ⚡ Isi Data Kasus Kritis (Demo Juri)
-              </button>
+            {/* Tombol Kirim Pengajuan Bersih */}
+            <div className="pt-2">
               <button
                 type="submit"
-                className="bg-teal-700 hover:bg-teal-800 text-white font-semibold py-3 px-6 rounded-xl shadow-md text-xs transition flex items-center space-x-2 cursor-pointer w-full sm:w-auto justify-center"
+                className="w-full bg-teal-700 hover:bg-teal-800 text-white font-semibold py-3.5 px-6 rounded-xl shadow-md text-xs transition flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
-                <span>Kirim Pengajuan Resmi ke BPBD</span>
+                <span>Kirim Pengajuan</span>
+              </button>
+            </div>
+
+            {/* Tombol Kecil Isi Cepat Data Kasus di Bawah Form */}
+            <div className="pt-2 text-center border-t border-slate-100">
+              <button
+                type="button"
+                onClick={handleAutoFill}
+                className="text-xs text-slate-500 hover:text-teal-700 transition inline-flex items-center space-x-1.5 cursor-pointer py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-slate-200"
+              >
+                <span>⚡</span>
+                <span>Isi Cepat Data Kasus</span>
               </button>
             </div>
           </form>
@@ -305,7 +268,7 @@ export default function PoskoPage() {
         <div className="space-y-5">
           <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
             <h3 className="font-bold text-slate-900 text-sm flex items-center">
-              <Info className="w-4 h-4 mr-2 text-teal-600" /> Prosedur Verifikasi Permintaan
+              <Info className="w-4 h-4 mr-2 text-teal-600" /> Prosedur Pengajuan Bantuan
             </h3>
             <ul className="text-xs text-slate-600 space-y-3 mt-3">
               <li className="flex items-start">
@@ -313,7 +276,7 @@ export default function PoskoPage() {
                   1
                 </span>
                 <span>
-                  Permintaan yang masuk berstatus <strong>SUBMITTED</strong> dan masuk ke Command Center BPBD.
+                  Permintaan posko berstatus <strong>SUBMITTED</strong> masuk ke Command Center BPBD.
                 </span>
               </li>
               <li className="flex items-start">
@@ -321,25 +284,26 @@ export default function PoskoPage() {
                   2
                 </span>
                 <span>
-                  Pejabat logistik berwenang memvalidasi kewajaran dan tingkat urgensi (Status menjadi{" "}
-                  <strong>VERIFIED</strong>).
+                  Petugas BPBD memverifikasi kebutuhan posko dan meneruskannya ke gudang logistik.
                 </span>
               </li>
               <li className="flex items-start">
                 <span className="w-5 h-5 rounded-full bg-teal-100 text-teal-800 font-bold flex items-center justify-center mr-2 text-[10px] flex-shrink-0">
                   3
                 </span>
-                <span>Gudang menerbitkan token QR sekali pakai dan kode segel fisik di dalam koli.</span>
+                <span>
+                  Gudang menerbitkan token QR dan paket logistik siap diberangkatkan ke posko.
+                </span>
               </li>
             </ul>
           </div>
 
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-xs text-amber-900">
             <div className="font-bold flex items-center">
-              <AlertTriangle className="w-4 h-4 mr-1.5 text-amber-700" /> Catatan Integritas Logistik:
+              <AlertTriangle className="w-4 h-4 mr-1.5 text-amber-700" /> Catatan Posko Lapangan:
             </div>
             <p className="mt-1 text-[11px] text-amber-800 leading-relaxed">
-              Setiap formulir yang dikirimkan terikat dengan akun resmi koordinator posko dan dicatat secara permanen di buku besar audit SIBANTU.
+              Pastikan jumlah jiwa pengungsi terdata akurat sesuai kondisi riil lapangan untuk kelancaran penyaluran bantuan.
             </p>
           </div>
         </div>
