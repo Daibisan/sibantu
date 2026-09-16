@@ -12,9 +12,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SIBANTU - Portal Resmi Tata Kelola Logistik Tanggap Darurat BPBD",
+  title: "SIBANTU - Tata Kelola Logistik Tanggap Darurat",
   description:
-    "Sistem Integrasi Bantuan Terpantau & Akuntabel - Badan Penanggulangan Bencana Daerah (BPBD) Kab. Cianjur",
+    "Sistem Integrasi Bantuan Terpantau & Akuntabel - BPBD Kab. Cianjur",
 };
 
 export default function RootLayout({
@@ -48,4 +48,3 @@ export default function RootLayout({
     </html>
   );
 }
-

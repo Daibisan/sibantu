@@ -5,15 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   PhoneCall,
-  Database,
-  RotateCcw,
   ShieldCheck,
   Globe,
   ClipboardList,
   LayoutDashboard,
   Boxes,
   QrCode,
-  Binary,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -33,34 +30,12 @@ export default function Navbar() {
             <span className="text-slate-300">
               Badan Penanggulangan Bencana Daerah (BPBD) Kab. Cianjur
             </span>
-            <span className="hidden md:inline text-slate-600">|</span>
-            <span className="hidden md:inline text-teal-400 font-mono">
-              Sistem Terintegrasi SPBE &amp; Satu Data Bencana
-            </span>
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-slate-400 flex items-center">
               <PhoneCall className="w-3 h-3 mr-1 text-emerald-400" /> Hotline Tanggap Darurat:{" "}
               <strong className="text-white ml-1">117</strong>
             </span>
-            <span className="text-slate-600">|</span>
-            <div className="flex items-center space-x-1.5">
-              <button
-                type="button"
-                title="Muat Data Uji Kasus Nyata Gempa Cianjur"
-                className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-0.5 rounded border border-slate-700 transition text-[10px] flex items-center space-x-1 cursor-pointer"
-              >
-                <Database className="w-3 h-3 text-teal-400" />
-                <span>Simulasi Kasus Cianjur</span>
-              </button>
-              <button
-                type="button"
-                title="Reset ulang data sistem"
-                className="bg-slate-800 hover:bg-slate-700 text-slate-300 p-1 rounded border border-slate-700 transition cursor-pointer"
-              >
-                <RotateCcw className="w-3 h-3" />
-              </button>
-            </div>
           </div>
         </div>
       </aside>
@@ -87,7 +62,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Official Status & Operator Badges */}
+            {/* Operator Badges */}
             <div className="hidden lg:flex items-center space-x-4">
               <div className="text-right border-r border-slate-200 pr-4">
                 <div className="text-xs font-bold text-slate-800 flex items-center justify-end space-x-1.5">
@@ -95,7 +70,7 @@ export default function Navbar() {
                   <span>Pos Komando Induk Darurat</span>
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  Insiden: Gempa Bumi M5.6 Cianjur (Fase Tanggap 01)
+                  Kabupaten Cianjur
                 </div>
               </div>
               <div className="flex items-center space-x-2.5 bg-slate-50 p-2 rounded-xl border border-slate-200">
@@ -106,14 +81,15 @@ export default function Navbar() {
                   <div className="text-xs font-bold text-slate-800 leading-tight">
                     Hendra, S.STP
                   </div>
-                  <div className="text-[10px] text-slate-500">NIP. 19840211 200801 1 002</div>
+                  <div className="text-[10px] text-slate-500">Petugas Logistik</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Module Navigation Tabs */}
+          {/* Module Navigation Tabs: 5 Main Tabs Only */}
           <nav className="flex overflow-x-auto py-2 space-x-1.5 scrollbar-none border-t border-slate-100 text-xs font-semibold">
+            {/* Tab 1 */}
             <Link
               href="/"
               id="tab-publik"
@@ -124,8 +100,10 @@ export default function Navbar() {
               }`}
             >
               <Globe className="w-4 h-4 text-teal-600" />
-              <span>1. Portal Transparansi Publik</span>
+              <span>1. Portal Publik</span>
             </Link>
+
+            {/* Tab 2 */}
             <Link
               href="/posko"
               id="tab-posko"
@@ -136,8 +114,10 @@ export default function Navbar() {
               }`}
             >
               <ClipboardList className="w-4 h-4 text-amber-500" />
-              <span>2. Pengajuan Kebutuhan Posko</span>
+              <span>2. Pengajuan Posko</span>
             </Link>
+
+            {/* Tab 3 */}
             <Link
               href="/bpbd"
               id="tab-bpbd"
@@ -150,6 +130,8 @@ export default function Navbar() {
               <LayoutDashboard className="w-4 h-4 text-blue-600" />
               <span>3. Command Center BPBD</span>
             </Link>
+
+            {/* Tab 4 */}
             <Link
               href="/gudang"
               id="tab-gudang"
@@ -160,8 +142,10 @@ export default function Navbar() {
               }`}
             >
               <Boxes className="w-4 h-4 text-purple-600" />
-              <span>4. Gudang &amp; Dispatch (FEFO)</span>
+              <span>4. Gudang (FEFO)</span>
             </Link>
+
+            {/* Tab 5 */}
             <Link
               href="/scanner"
               id="tab-scanner"
@@ -174,14 +158,6 @@ export default function Navbar() {
               <QrCode className="w-4 h-4 text-emerald-600" />
               <span>5. Terminal Serah Terima</span>
             </Link>
-            <button
-              type="button"
-              id="tab-audit"
-              className="gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-50 cursor-pointer"
-            >
-              <Binary className="w-4 h-4 text-rose-600" />
-              <span>6. Buku Besar Audit (SHA-256)</span>
-            </button>
           </nav>
         </div>
       </header>
