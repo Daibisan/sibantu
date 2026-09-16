@@ -111,9 +111,9 @@ export default function Navbar() {
             <button
               type="button"
               id="tab-publik"
-              className="gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition bg-teal-700 text-white shadow-sm cursor-pointer"
+              className="gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-50 gov-nav-active cursor-pointer"
             >
-              <Globe className="w-4 h-4 text-teal-200" />
+              <Globe className="w-4 h-4 text-teal-600" />
               <span>1. Portal Transparansi Publik</span>
             </button>
             <button
