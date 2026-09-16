@@ -1,4 +1,8 @@
+"use client";
+
 import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   PhoneCall,
   Database,
@@ -13,6 +17,8 @@ import {
 } from "lucide-react";
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
     <>
       {/* Top Banner / Official Government Notice */}
@@ -108,22 +114,30 @@ export default function Navbar() {
 
           {/* Module Navigation Tabs */}
           <nav className="flex overflow-x-auto py-2 space-x-1.5 scrollbar-none border-t border-slate-100 text-xs font-semibold">
-            <button
-              type="button"
+            <Link
+              href="/"
               id="tab-publik"
-              className="gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-50 gov-nav-active cursor-pointer"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
+                pathname === "/"
+                  ? "gov-nav-active text-white"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
             >
               <Globe className="w-4 h-4 text-teal-600" />
               <span>1. Portal Transparansi Publik</span>
-            </button>
-            <button
-              type="button"
+            </Link>
+            <Link
+              href="/posko"
               id="tab-posko"
-              className="gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-50 cursor-pointer"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
+                pathname === "/posko"
+                  ? "gov-nav-active text-white"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
             >
               <ClipboardList className="w-4 h-4 text-amber-500" />
               <span>2. Pengajuan Kebutuhan Posko</span>
-            </button>
+            </Link>
             <button
               type="button"
               id="tab-bpbd"
