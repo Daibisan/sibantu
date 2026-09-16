@@ -138,14 +138,18 @@ export default function Navbar() {
               <ClipboardList className="w-4 h-4 text-amber-500" />
               <span>2. Pengajuan Kebutuhan Posko</span>
             </Link>
-            <button
-              type="button"
+            <Link
+              href="/bpbd"
               id="tab-bpbd"
-              className="gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-50 cursor-pointer"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
+                pathname === "/bpbd"
+                  ? "gov-nav-active text-white"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
             >
               <LayoutDashboard className="w-4 h-4 text-blue-600" />
               <span>3. Command Center BPBD</span>
-            </button>
+            </Link>
             <button
               type="button"
               id="tab-gudang"
