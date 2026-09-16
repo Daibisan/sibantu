@@ -162,14 +162,18 @@ export default function Navbar() {
               <Boxes className="w-4 h-4 text-purple-600" />
               <span>4. Gudang &amp; Dispatch (FEFO)</span>
             </Link>
-            <button
-              type="button"
+            <Link
+              href="/scanner"
               id="tab-scanner"
-              className="gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-50 cursor-pointer"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
+                pathname === "/scanner"
+                  ? "gov-nav-active text-white"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
             >
               <QrCode className="w-4 h-4 text-emerald-600" />
               <span>5. Terminal Serah Terima</span>
-            </button>
+            </Link>
             <button
               type="button"
               id="tab-audit"
