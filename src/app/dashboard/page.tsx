@@ -11,6 +11,12 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
+  // Pengecekan Role RBAC
+  const rolesString = session.roles.map((r) => r.roleCode).join(' ').toUpperCase();
+  const isAdminOrBPBD = rolesString.includes('ADMIN') || rolesString.includes('BPBD');
+  const isPosko = rolesString.includes('POSKO') || isAdminOrBPBD;
+  const isGudang = rolesString.includes('GUDANG') || isAdminOrBPBD;
+
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
@@ -98,37 +104,6 @@ export default async function DashboardPage() {
               ))}
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Quick Navigation into MVP Modules (Dikembalikan) */}
-      <div className="border border-slate-200 bg-white shadow-sm rounded-2xl p-6">
-        <h2 className="text-base font-bold text-slate-900 mb-2">Modul Operasional MVP</h2>
-        <p className="text-xs text-slate-500 mb-4">
-          Akses cepat menuju modul sesuai alur pengajuan dan serah terima logistik.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Link href="/posko" className="p-4 rounded-xl bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 transition-all group flex items-center justify-between">
-            <div>
-              <span className="text-xs font-semibold text-teal-600 block mb-1">Halaman 1</span>
-              <span className="text-sm font-bold text-slate-800 group-hover:text-teal-900">Form Posko Lapangan</span>
-            </div>
-            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-600 transition-transform group-hover:translate-x-1" />
-          </Link>
-          <Link href="/bpbd" className="p-4 rounded-xl bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 transition-all group flex items-center justify-between">
-            <div>
-              <span className="text-xs font-semibold text-teal-600 block mb-1">Halaman 2</span>
-              <span className="text-sm font-bold text-slate-800 group-hover:text-teal-900">Command Center BPBD</span>
-            </div>
-            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-600 transition-transform group-hover:translate-x-1" />
-          </Link>
-          <Link href="/gudang" className="p-4 rounded-xl bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 transition-all group flex items-center justify-between">
-            <div>
-              <span className="text-xs font-semibold text-teal-600 block mb-1">Halaman 3</span>
-              <span className="text-sm font-bold text-slate-800 group-hover:text-teal-900">Gudang & Dispatch</span>
-            </div>
-            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-600 transition-transform group-hover:translate-x-1" />
-          </Link>
         </div>
       </div>
     </div>

@@ -202,7 +202,7 @@ export default function Navbar() {
                   </Link>
                 )}
 
-                {(isPosko || isGudang || isAdminOrBPBD) && (
+                {isPosko && (
                   <Link
                     href="/scanner"
                     className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/scanner"
