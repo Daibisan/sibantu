@@ -64,25 +64,24 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Operator Badges */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <div className="text-right border-r border-slate-200 pr-4">
+            {/* Operator Badges & Logout */}
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* Status Teks (Disembunyikan di HP agar tidak sesak, muncul di Tablet/Desktop) */}
+              <div className="hidden sm:block text-right border-r border-slate-200 pr-3 sm:pr-4">
                 <div className="text-xs font-bold text-slate-800 flex items-center justify-end space-x-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span>Pos Komando Induk Darurat</span>
                 </div>
-                <div className="text-[11px] text-slate-500">
-                  Kabupaten Cianjur
-                </div>
+                <div className="text-[11px] text-slate-500">Kabupaten Cianjur</div>
               </div>
-              <div className="flex items-center space-x-2.5 bg-slate-50 p-2 rounded-xl border border-slate-200">
-                <div className="w-8 h-8 rounded-lg bg-teal-700 text-white flex items-center justify-center font-bold text-xs shadow-inner">
+
+              {/* Profil User (Selalu Muncul) */}
+              <div className="flex items-center gap-2 sm:gap-2.5 bg-slate-50 p-1.5 sm:p-2 rounded-xl border border-slate-200">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-teal-700 text-white flex items-center justify-center font-bold text-xs shadow-inner">
                   BP
                 </div>
-                <div className="text-left">
-                  <div className="text-xs font-bold text-slate-800 leading-tight">
-                    Hendra, S.STP
-                  </div>
+                <div className="text-left hidden min-[400px]:block">
+                  <div className="text-xs font-bold text-slate-800 leading-tight">Hendra, S.STP</div>
                   <div className="text-[10px] text-slate-500">Petugas Logistik</div>
                 </div>
               </div>
@@ -95,11 +94,10 @@ export default function Navbar() {
             <Link
               href="/"
               id="tab-publik"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
-                pathname === "/"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/"
                   ? "gov-nav-active text-white"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              }`}
+                }`}
             >
               <Globe className="w-4 h-4 text-teal-600" />
               <span>1. Portal Publik</span>
@@ -109,11 +107,10 @@ export default function Navbar() {
             <Link
               href="/posko"
               id="tab-posko"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
-                pathname === "/posko"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/posko"
                   ? "gov-nav-active text-white"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              }`}
+                }`}
             >
               <ClipboardList className="w-4 h-4 text-amber-500" />
               <span>2. Pengajuan Posko</span>
@@ -123,11 +120,10 @@ export default function Navbar() {
             <Link
               href="/bpbd"
               id="tab-bpbd"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
-                pathname === "/bpbd"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/bpbd"
                   ? "gov-nav-active text-white"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              }`}
+                }`}
             >
               <LayoutDashboard className="w-4 h-4 text-blue-600" />
               <span>3. Command Center BPBD</span>
@@ -137,11 +133,10 @@ export default function Navbar() {
             <Link
               href="/gudang"
               id="tab-gudang"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
-                pathname === "/gudang"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/gudang"
                   ? "gov-nav-active text-white"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              }`}
+                }`}
             >
               <Boxes className="w-4 h-4 text-purple-600" />
               <span>4. Gudang (FEFO)</span>
@@ -151,11 +146,10 @@ export default function Navbar() {
             <Link
               href="/scanner"
               id="tab-scanner"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${
-                pathname === "/scanner"
+              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/scanner"
                   ? "gov-nav-active text-white"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              }`}
+                }`}
             >
               <QrCode className="w-4 h-4 text-emerald-600" />
               <span>5. Terminal Serah Terima</span>

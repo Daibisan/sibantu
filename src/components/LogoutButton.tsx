@@ -23,14 +23,14 @@ export function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={loading}
-      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-rose-300 hover:text-white bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/60 rounded-xl transition-all cursor-pointer disabled:opacity-60"
+      className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-rose-700 hover:text-white bg-rose-50 hover:bg-rose-600 border border-rose-200 hover:border-rose-600 rounded-xl transition-all cursor-pointer disabled:opacity-60 shadow-sm"
     >
       {loading ? (
         <Loader2 className="w-4 h-4 animate-spin" />
       ) : (
         <LogOut className="w-4 h-4" />
       )}
-      <span>Keluar (Logout)</span>
+      <span>Keluar Aplikasi</span>
     </button>
   );
 }

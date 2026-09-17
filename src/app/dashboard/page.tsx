@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getCurrentSession } from '@/lib/auth';
 import { User, Mail, Shield, AlertTriangle, Layers } from 'lucide-react';
+import { LogoutButton } from '@/components/LogoutButton'; // <-- Jangan lupa import ini
 
 export default async function DashboardPage() {
   const session = await getCurrentSession();
@@ -11,8 +12,8 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-50 to-white border border-teal-200 p-6 sm:p-8 shadow-sm">
+      {/* Welcome Banner (Ditambahkan flex untuk posisi tombol Logout) */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-50 to-white border border-teal-200 p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="max-w-3xl">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal-100 text-teal-800 border border-teal-200 mb-4">
             <Shield className="w-3.5 h-3.5" />
@@ -21,6 +22,10 @@ export default async function DashboardPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
             Selamat Datang, {session.name}
           </h1>
+        </div>
+        {/* Tombol Logout di sebelah kanan */}
+        <div className="shrink-0">
+          <LogoutButton />
         </div>
       </div>
 
