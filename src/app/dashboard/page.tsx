@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 import { getCurrentSession } from '@/lib/auth';
-import { User, Mail, Shield, AlertTriangle, Layers } from 'lucide-react';
-import { LogoutButton } from '@/components/LogoutButton'; // <-- Jangan lupa import ini
+import { User, Mail, Shield, AlertTriangle, Layers, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { LogoutButton } from '@/components/LogoutButton';
 
 export default async function DashboardPage() {
   const session = await getCurrentSession();
@@ -12,7 +13,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome Banner (Ditambahkan flex untuk posisi tombol Logout) */}
+      {/* Welcome Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-50 to-white border border-teal-200 p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="max-w-3xl">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal-100 text-teal-800 border border-teal-200 mb-4">
@@ -23,7 +24,6 @@ export default async function DashboardPage() {
             Selamat Datang, {session.name}
           </h1>
         </div>
-        {/* Tombol Logout di sebelah kanan */}
         <div className="shrink-0">
           <LogoutButton />
         </div>
@@ -98,6 +98,37 @@ export default async function DashboardPage() {
               ))}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Quick Navigation into MVP Modules (Dikembalikan) */}
+      <div className="border border-slate-200 bg-white shadow-sm rounded-2xl p-6">
+        <h2 className="text-base font-bold text-slate-900 mb-2">Modul Operasional MVP</h2>
+        <p className="text-xs text-slate-500 mb-4">
+          Akses cepat menuju modul sesuai alur pengajuan dan serah terima logistik.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Link href="/posko" className="p-4 rounded-xl bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 transition-all group flex items-center justify-between">
+            <div>
+              <span className="text-xs font-semibold text-teal-600 block mb-1">Halaman 1</span>
+              <span className="text-sm font-bold text-slate-800 group-hover:text-teal-900">Form Posko Lapangan</span>
+            </div>
+            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-600 transition-transform group-hover:translate-x-1" />
+          </Link>
+          <Link href="/bpbd" className="p-4 rounded-xl bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 transition-all group flex items-center justify-between">
+            <div>
+              <span className="text-xs font-semibold text-teal-600 block mb-1">Halaman 2</span>
+              <span className="text-sm font-bold text-slate-800 group-hover:text-teal-900">Command Center BPBD</span>
+            </div>
+            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-600 transition-transform group-hover:translate-x-1" />
+          </Link>
+          <Link href="/gudang" className="p-4 rounded-xl bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 transition-all group flex items-center justify-between">
+            <div>
+              <span className="text-xs font-semibold text-teal-600 block mb-1">Halaman 3</span>
+              <span className="text-sm font-bold text-slate-800 group-hover:text-teal-900">Gudang & Dispatch</span>
+            </div>
+            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-600 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </div>
