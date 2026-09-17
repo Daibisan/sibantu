@@ -11,12 +11,6 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
-  // Pengecekan Role RBAC
-  const rolesString = session.roles.map((r) => r.roleCode).join(' ').toUpperCase();
-  const isAdminOrBPBD = rolesString.includes('ADMIN') || rolesString.includes('BPBD');
-  const isPosko = rolesString.includes('POSKO') || isAdminOrBPBD;
-  const isGudang = rolesString.includes('GUDANG') || isAdminOrBPBD;
-
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
