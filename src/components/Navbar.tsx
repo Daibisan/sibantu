@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -11,12 +11,40 @@ import {
   LayoutDashboard,
   Boxes,
   QrCode,
+  User,
 } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [session, setSession] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Ambil data user yang sedang login
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setSession(data.user);
+        } else {
+          setSession(null);
+        }
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setSession(null);
+        setIsLoading(false);
+      });
+  }, [pathname]);
+
+  // Sembunyikan Navbar di halaman login
   if (pathname === "/login") return null;
+
+  // Logika pembatasan akses tab berdasarkan Role
+  const rolesString = session?.roles?.map((r: any) => r.roleCode).join(' ').toUpperCase() || '';
+  const isAdminOrBPBD = rolesString.includes('ADMIN') || rolesString.includes('BPBD');
+  const isPosko = rolesString.includes('POSKO') || isAdminOrBPBD;
+  const isGudang = rolesString.includes('GUDANG') || isAdminOrBPBD;
 
   return (
     <>
@@ -64,96 +92,130 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Operator Badges & Logout */}
+            {/* Operator Badges & Dynamic Profile */}
             <div className="flex items-center gap-2 sm:gap-4">
-              {/* Status Teks (Disembunyikan di HP agar tidak sesak, muncul di Tablet/Desktop) */}
-              <div className="hidden sm:block text-right border-r border-slate-200 pr-3 sm:pr-4">
-                <div className="text-xs font-bold text-slate-800 flex items-center justify-end space-x-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>Pos Komando Induk Darurat</span>
-                </div>
-                <div className="text-[11px] text-slate-500">Kabupaten Cianjur</div>
-              </div>
+              {isLoading ? (
+                <div className="text-xs text-slate-400 animate-pulse">Memuat...</div>
+              ) : session ? (
+                <>
+                  <div className="hidden sm:block text-right border-r border-slate-200 pr-3 sm:pr-4">
+                    <div className="text-xs font-bold text-slate-800 flex items-center justify-end space-x-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span>Pos Komando Induk Darurat</span>
+                    </div>
+                    <div className="text-[11px] text-slate-500">Kabupaten Cianjur</div>
+                  </div>
 
-              {/* Profil User (Selalu Muncul) */}
-              <div className="flex items-center gap-2 sm:gap-2.5 bg-slate-50 p-1.5 sm:p-2 rounded-xl border border-slate-200">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-teal-700 text-white flex items-center justify-center font-bold text-xs shadow-inner">
-                  BP
-                </div>
-                <div className="text-left hidden min-[400px]:block">
-                  <div className="text-xs font-bold text-slate-800 leading-tight">Hendra, S.STP</div>
-                  <div className="text-[10px] text-slate-500">Petugas Logistik</div>
-                </div>
-              </div>
+                  {/* Profil User (Klik menuju Dashboard) */}
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 sm:gap-2.5 bg-slate-50 p-1.5 sm:p-2 rounded-xl border border-slate-200 hover:bg-slate-100 transition cursor-pointer"
+                  >
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-teal-700 text-white flex items-center justify-center font-bold text-xs shadow-inner">
+                      {session.name ? session.name.substring(0, 2).toUpperCase() : <User className="w-4 h-4" />}
+                    </div>
+                    <div className="text-left hidden min-[400px]:block">
+                      <div className="text-xs font-bold text-slate-800 leading-tight truncate max-w-[120px]">
+                        {session.name}
+                      </div>
+                      <div className="text-[10px] text-slate-500 truncate max-w-[120px]">
+                        {session.roles?.[0]?.roleName || 'Petugas'}
+                      </div>
+                    </div>
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  href="/login"
+                  className="bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold px-4 py-2 sm:py-2.5 rounded-xl transition shadow-sm flex items-center gap-2"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Login Petugas</span>
+                </Link>
+              )}
             </div>
           </div>
 
-          {/* Module Navigation Tabs: 5 Main Tabs Only */}
+          {/* Module Navigation Tabs (Dynamic) */}
           <nav className="flex overflow-x-auto py-2 space-x-1.5 scrollbar-none border-t border-slate-100 text-xs font-semibold">
-            {/* Tab 1 */}
-            <Link
-              href="/"
-              id="tab-publik"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/"
-                  ? "gov-nav-active text-white"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-            >
-              <Globe className="w-4 h-4 text-teal-600" />
-              <span>1. Portal Publik</span>
-            </Link>
+            {/* Tab Navigasi Khusus Petugas (Muncul Jika Login) */}
+            {session && (
+              <>
+                <Link
+                  href="/"
+                  className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/"
+                      ? "gov-nav-active text-white"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    }`}
+                >
+                  <Globe className="w-4 h-4 text-teal-600" />
+                  <span>Portal Publik</span>
+                </Link>
 
-            {/* Tab 2 */}
-            <Link
-              href="/posko"
-              id="tab-posko"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/posko"
-                  ? "gov-nav-active text-white"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-            >
-              <ClipboardList className="w-4 h-4 text-amber-500" />
-              <span>2. Pengajuan Posko</span>
-            </Link>
+                <Link
+                  href="/dashboard"
+                  className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/dashboard"
+                      ? "gov-nav-active text-white"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    }`}
+                >
+                  <LayoutDashboard className="w-4 h-4 text-slate-600" />
+                  <span>Dashboard</span>
+                </Link>
 
-            {/* Tab 3 */}
-            <Link
-              href="/bpbd"
-              id="tab-bpbd"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/bpbd"
-                  ? "gov-nav-active text-white"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-            >
-              <LayoutDashboard className="w-4 h-4 text-blue-600" />
-              <span>3. Command Center BPBD</span>
-            </Link>
+                {isPosko && (
+                  <Link
+                    href="/posko"
+                    className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/posko"
+                        ? "gov-nav-active text-white"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                  >
+                    <ClipboardList className="w-4 h-4 text-amber-500" />
+                    <span>Form Posko</span>
+                  </Link>
+                )}
 
-            {/* Tab 4 */}
-            <Link
-              href="/gudang"
-              id="tab-gudang"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/gudang"
-                  ? "gov-nav-active text-white"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-            >
-              <Boxes className="w-4 h-4 text-purple-600" />
-              <span>4. Gudang (FEFO)</span>
-            </Link>
+                {isAdminOrBPBD && (
+                  <Link
+                    href="/bpbd"
+                    className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/bpbd"
+                        ? "gov-nav-active text-white"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                  >
+                    <LayoutDashboard className="w-4 h-4 text-blue-600" />
+                    <span>Command BPBD</span>
+                  </Link>
+                )}
 
-            {/* Tab 5 */}
-            <Link
-              href="/scanner"
-              id="tab-scanner"
-              className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/scanner"
-                  ? "gov-nav-active text-white"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-            >
-              <QrCode className="w-4 h-4 text-emerald-600" />
-              <span>5. Terminal Serah Terima</span>
-            </Link>
+                {isGudang && (
+                  <Link
+                    href="/gudang"
+                    className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/gudang"
+                        ? "gov-nav-active text-white"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                  >
+                    <Boxes className="w-4 h-4 text-purple-600" />
+                    <span>Gudang Induk</span>
+                  </Link>
+                )}
+
+                {(isPosko || isGudang || isAdminOrBPBD) && (
+                  <Link
+                    href="/scanner"
+                    className={`gov-nav-tab flex items-center space-x-2 px-3.5 py-2 rounded-lg transition ${pathname === "/scanner"
+                        ? "gov-nav-active text-white"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                  >
+                    <QrCode className="w-4 h-4 text-emerald-600" />
+                    <span>Terminal Serah Terima</span>
+                  </Link>
+                )}
+              </>
+            )}
           </nav>
         </div>
       </header>
