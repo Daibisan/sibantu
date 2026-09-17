@@ -50,37 +50,37 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-center items-center px-4 py-12">
+    <div className="min-h-screen absolute inset-0 z-50 bg-slate-100 text-slate-800 flex flex-col justify-center items-center px-4 py-12">
       <div className="w-full max-w-md">
         {/* Header Branding */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-teal-600/20 text-teal-400 ring-1 ring-teal-500/30 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-teal-50 text-teal-700 border border-teal-200 shadow-sm mb-4">
             <ShieldAlert className="w-9 h-9" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">SIBANTU</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">SIBANTU</h1>
+          <p className="text-sm text-slate-500 mt-1">
             Sistem Manajemen Distribusi Bantuan & Logistik Bencana
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-slate-800/80 backdrop-blur border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-xl">
-          <h2 className="text-lg font-semibold text-slate-200 mb-6 flex items-center gap-2">
-            <LogIn className="w-5 h-5 text-teal-400" />
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-lg">
+          <h2 className="text-lg font-semibold text-slate-800 mb-6 flex items-center gap-2">
+            <LogIn className="w-5 h-5 text-teal-600" />
             Masuk ke Portal Petugas
           </h2>
 
           {/* Error Box */}
           {errorMessage && (
-            <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm flex items-start gap-3">
-              <ShieldAlert className="w-5 h-5 shrink-0 text-rose-400 mt-0.5" />
+            <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-start gap-3">
+              <ShieldAlert className="w-5 h-5 shrink-0 text-rose-500 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                 Alamat Email
               </label>
               <div className="relative">
@@ -93,14 +93,14 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nama@sibantu.id"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-sm"
                   disabled={loading}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                 Kata Sandi
               </label>
               <div className="relative">
@@ -113,7 +113,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-sm"
                   disabled={loading}
                 />
               </div>
@@ -122,7 +122,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-medium text-sm transition-colors shadow-lg shadow-teal-900/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+              className="w-full py-3 px-4 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-semibold text-sm transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-2"
             >
               {loading ? (
                 <>
@@ -139,29 +139,29 @@ export default function LoginPage() {
           </form>
 
           {/* Quick Demo Fill Buttons */}
-          <div className="mt-8 pt-6 border-t border-slate-700/60">
-            <p className="text-xs font-medium text-slate-400 mb-3 text-center">
-              Akun Uji Coba Cepat (Password: <code className="text-teal-300">password123</code>)
+          <div className="mt-8 pt-6 border-t border-slate-100">
+            <p className="text-xs font-medium text-slate-500 mb-3 text-center">
+              Akun Uji Coba Cepat (Password: <code className="text-teal-700 bg-teal-50 px-1 rounded">password123</code>)
             </p>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => handleFillDemo('admin@sibantu.id')}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 hover:text-white text-xs text-center border border-slate-600/50 transition-colors"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-xs text-center border border-slate-200 transition-colors"
               >
                 BPBD (Admin)
               </button>
               <button
                 type="button"
                 onClick={() => handleFillDemo('gudang@sibantu.id')}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 hover:text-white text-xs text-center border border-slate-600/50 transition-colors"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-xs text-center border border-slate-200 transition-colors"
               >
                 Gudang
               </button>
               <button
                 type="button"
                 onClick={() => handleFillDemo('posko@sibantu.id')}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 hover:text-white text-xs text-center border border-slate-600/50 transition-colors"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-xs text-center border border-slate-200 transition-colors"
               >
                 Posko
               </button>
@@ -171,7 +171,7 @@ export default function LoginPage() {
 
         {/* Security Badge Note */}
         <p className="text-center text-xs text-slate-500 mt-6 flex items-center justify-center gap-1.5">
-          <CheckCircle2 className="w-3.5 h-3.5 text-teal-400" />
+          <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />
           Kredensial diverifikasi langsung via PostgreSQL Railway
         </p>
       </div>

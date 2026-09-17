@@ -16,6 +16,8 @@ import {
 export default function Navbar() {
   const pathname = usePathname();
 
+  if (pathname === "/login") return null;
+
   return (
     <>
       {/* Top Banner / Official Government Notice */}
